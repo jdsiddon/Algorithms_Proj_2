@@ -111,8 +111,67 @@ function changegreedy(change, coins) {
 }
 
 
+// 3. Dynamic Programming:
+//
+// One dynamic programming approach uses table T indexed by values
+// of change 0, 1, 2, . . . , A where T
+// [v] is the minimum number of coins needed to make change for v.
+// T[v] = min
+// V[i}≤v
+// {T[v − V[i]] + 1}
+// We initialize T [0] = 0. How do you store and return the number
+// of each type of coin to return? (That
+// is, how do you build C[i]?) This implementation is called changedp. Note: there are other versions of
+// the DP algorithm you may use one but need to explain in your report.
+
+function changedp(change, coins, minSequences) {
+  if(change === 0) {      // Change is 0, don't select any coins.
+    return 0;
+  }
+
+  // Check if minimum already exists (memoization), return that if it exists because we don't need to calculate it again.
+  var seqIndex = minSequences.findIndex(function(elem, idx){
+    if(elem.change == change) {
+      return idx;
+    }
+  })
+
+  if(seqIndex > -1) {       // Smaller amount found.
+    return minSequences[seqIndex].total;
+  }
+
+  var min = Number.MAX_SAFE_INTEGER;
+
+  for(var i = 0; i < coins.length; i++) {
+
+    if(coins[i] > change) {
+      continue;     // The coin is to big to effect the number of coins required to give change.
+    }
+
+    var val = changedp(change-coins[i], coins, minSequences);
+
+    if(val < min) {
+      min = val;
+    }
+
+  }
+
+  min = (min === Number.MAX_SAFE_INTEGER ? min : min + 1);
+
+  minSequences.push({"change":change, "min":min});
+  console.log(minSequences);
+  return min;
+}
+
+
+
+
+
 // changeslow(15, [1, 2, 4, 8], 15);
 changeslow(1, [1, 2, 4, 8], 1);
 
 console.log(changegreedy(0, [1, 2, 4, 8]));      // Should return 0.
 console.log(changegreedy(15, [1, 2, 4, 8]));     // Should be [1, 1, 1, 1]
+
+console.log(changedp(0, [1, 2, 4, 8], new Array()));      // Should return 0.
+console.log(changedp(15, [1, 2, 4, 8], new Array()));     // Should be [1, 1, 1, 1]
