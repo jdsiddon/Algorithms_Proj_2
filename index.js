@@ -130,14 +130,14 @@ function changedp(change, coins, minSequences) {
   }
 
   // Check if minimum already exists (memoization), return that if it exists because we don't need to calculate it again.
-  var seqIndex = minSequences.findIndex(function(elem, idx){
-    if(elem.change == change) {
-      return idx;
+  var minChange = minSequences.findIndex(function(elem, idx){
+    if(elem.change === change) {
+      return elem;
     }
   })
 
-  if(seqIndex > -1) {       // Smaller amount found.
-    return minSequences[seqIndex].total;
+  if(minChange > -1) {       // Smaller amount found.
+    return minChange;
   }
 
   var min = Number.MAX_SAFE_INTEGER;
