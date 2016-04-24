@@ -35,7 +35,7 @@ function changeslow(cents, coins) {
 function changegreedy(change, coins) {
   var tempChange = new Array(coins.length);     // Create a new array the same size as the coins available.
   //tempChange.fill(0);
-  (tempChange = []).length = 0;
+  (tempChange = []).length = coins.length;
 
   if(change === 0) {                    // No change required.
     return tempChange;
@@ -77,7 +77,7 @@ function changegreedy(change, coins) {
 function changedp(change, coins, minSequences) {
   var tempChange = new Array(coins.length);     // Create a new array the same size as the coins available.
   //tempChange.fill(0);     // Each coin is selected 0 times to start.
-  (tempChange = []).length = 0;
+  (tempChange = []).length = coins.length;
 
   if(change === 0) {      // Change is 0, don't select any coins.
     return 0;
