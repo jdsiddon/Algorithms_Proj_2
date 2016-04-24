@@ -76,7 +76,8 @@ function changegreedy(change, coins) {
 // https://www.youtube.com/watch?v=Kf_M7RdHr1M
 function changedp(change, coins, minSequences) {
   var tempChange = new Array(coins.length);     // Create a new array the same size as the coins available.
-  tempChange.fill(0);     // Each coin is selected 0 times to start.
+  //tempChange.fill(0);     // Each coin is selected 0 times to start.
+  (tempChange = []).length = 0;
 
   if(change === 0) {      // Change is 0, don't select any coins.
     return 0;
