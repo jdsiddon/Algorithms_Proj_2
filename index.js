@@ -34,7 +34,8 @@ function changeslow(cents, coins) {
 
 function changegreedy(change, coins) {
   var tempChange = new Array(coins.length);     // Create a new array the same size as the coins available.
-  tempChange.fill(0);
+  //tempChange.fill(0);
+  (tempChange = []).length = 0;
 
   if(change === 0) {                    // No change required.
     return tempChange;
