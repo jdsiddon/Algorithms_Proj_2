@@ -4,27 +4,54 @@
 // A = 15
 // C = [1, 1, 1, 1], i.e., 1, 1 cent, 1, 2 cent, 1, 4 cent, 1, 8 cent
 
-function changeslow(cents, coins, minChange) {
-  if(cents < 0) { // No solution.
-    return 0;
-  }
+// function changeslow(cents, coins, minChange) {
+//   if(cents < 0) { // No solution.
+//     return 0;
+//   }
+//
+//   if(cents == 0) { // Cents requested in 0, so only 1 solution exists.
+//     return 1;
+//   }
+//
+//   var sum = 0;
+//   for(var i = 0; i < coins.length; i++) {
+//     sum+=changeslow(cents-coins[i], coins, 0)
+//   }
+//
+//   if(minChange == coins.length && cents > 0) {
+//     return 0;      //
+//   }
+//
+//   return changeslow(cents-coins[minChange], coins, minChange) + changeslow(cents, coins, minChange+1);
+// }
 
-  if(cents == 0) { // Cents requested in 0, so only 1 solution exists.
-    return 1;
-  }
+function changeslow(cents, coins) {
+  var tempChange = new Array(coins.length);     // Create a new array the same size as the coins available.
+  tempChange.fill(0);
 
-  var sum = 0;
+  var ret = new Array;
+  var next = new Array;
+
   for(var i = 0; i < coins.length; i++) {
-    sum+=changeslow(cents-coins[i], coins, 0)
-  }
 
-  if(minChange == coins.length && cents > 0) {
-    return 0;      //
-  }
+    if(coins.length === 1) {  // Only 1 combination.
+      ret.push([coins[i]])
+    } else {
 
-  return changeslow(cents-coins[minChange], coins, minChange) + changeslow(cents, coins, minChange+1);
+
+      subArray = changeslow(cents-1, coins.slice(i+1, coins.length));
+      for(var j = 0; j < subArray.length; j++) {
+        // next = subArray[j];
+        next.unshift(coins[i]);
+        ret.push(next);
+
+      }
+    }
+
+  }
+  return ret;
+
 }
-
 
 
 function changegreedy(change, coins) {
@@ -97,13 +124,15 @@ function changedp(change, coins, minCoins) {
 
   }
 
+  // Loop back through each sub-change value and figure out the last coins used for each.
+  // This is will total up all the coins required to make the full change value.
   m = minArray.length-1;
   var d = 0;
 
   while(m > 0) {
     for(var h = 0; h < coins.length; h++) {
-      if(lastCoinUsed[m] === coins[h]) {
-        changeArr[h]++;
+      if(lastCoinUsed[m] === coins[h]) {          // Coin used and coin array position the same.
+        changeArr[h]++;                           // Increment coin count.
       }
     }
     m = m - lastCoinUsed[m];
@@ -122,7 +151,7 @@ function changedp(change, coins, minCoins) {
 
 
 
-// console.log(changeslow(15, [1, 2, 4, 8], 0));
+console.log(changeslow(15, [1, 2, 4, 8]));
 // console.log(changeslow(1, [1, 2, 4, 8], 0));
 // console.log(changeslow(25, [1, 2, 4, 8], 0));
 // console.log(changeslow(5, [1, 2, 3], 0));
