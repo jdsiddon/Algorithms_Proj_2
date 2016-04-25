@@ -5,24 +5,24 @@
 // C = [1, 1, 1, 1], i.e., 1, 1 cent, 1, 2 cent, 1, 4 cent, 1, 8 cent
 
 function changeslow(cents, coins, minChange) {
-  // if(cents < 0) { // No solution.
-  //   return 0;
-  // }
-  //
-  // if(cents == 0) { // Cents requested in 0, so only 1 solution exists.
-  //   return 1;
-  // }
-  //
-  // var sum = 0;
-  // for(var i = 0; i < coins.length; i++) {
-  //   sum+=changeslow(cents-coins[i], coins, 0)
-  // }
-  //
-  // // if(minChange == coins.length && cents > 0) {
-  //   return 0;      //
-  // }
-  //
-  // return changeslow(cents-coins[minChange], coins, minChange) + changeslow(cents, coins, minChange+1);
+  if(cents < 0) { // No solution.
+    return 0;
+  }
+
+  if(cents == 0) { // Cents requested in 0, so only 1 solution exists.
+    return 1;
+  }
+
+  var sum = 0;
+  for(var i = 0; i < coins.length; i++) {
+    sum+=changeslow(cents-coins[i], coins, 0)
+  }
+
+  if(minChange == coins.length && cents > 0) {
+    return 0;      //
+  }
+
+  return changeslow(cents-coins[minChange], coins, minChange) + changeslow(cents, coins, minChange+1);
 }
 
 
@@ -122,7 +122,7 @@ function changedp(change, coins, minCoins) {
 
 
 
-// changeslow(15, [1, 2, 4, 8], 15);
+// console.log(changeslow(15, [1, 2, 4, 8], 0));
 // console.log(changeslow(1, [1, 2, 4, 8], 0));
 // console.log(changeslow(25, [1, 2, 4, 8], 0));
 // console.log(changeslow(5, [1, 2, 3], 0));
