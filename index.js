@@ -85,25 +85,29 @@ function changedp(change, coins, minCoins) {
       s[i] = 0;
 
     } else {
-      if(j < coins.length) {
-        if(i % coins[j+1] === 0) {  // Current sub-change total equals the next availble coin denomination, so use it.
-          j++;
-        }
-      }
 
-      console.log("j: " + coins[j]);
+      var minCoins = Number.MAX_SAFE_INTEGER;
+      k = 0;
 
-      minCoins = c[i-coins[j]]+1; // Minimum required coins for sub-change = sub-change[index sub-change value minus current coin denomination] + 1;
-
-      console.log(minCoins);
-
-      var k = 0;
-      while(coins[k] < i) {
-        if(c[i-coins[k]]+1 < minCoins) {
+      while(k < coins.length && i <= coins[k]) {
+        if(minCoins < c[i-coins[k]]+1) {
           minCoins = c[i-coins[k]]+1;
         }
+        // if(i % coins[j+1] === 0) {  // Current sub-change total equals the next availble coin denomination, so use it.
+          // j++;
+        // }
         k++;
       }
+
+      // minCoins = c[i-coins[j]]+1;   // Minimum required coins for sub-change = sub-change[index sub-change value minus current coin denomination] + 1;
+      //
+      // var k = 0;
+      // while(coins[k] < i) {
+      //   if(c[i-coins[k]]+1 < minCoins) {
+      //     minCoins = c[i-coins[k]]+1;
+      //   }
+      //   k++;
+      // }
 
       c[i] = minCoins;            // Set minium coins for subchange value.
 
