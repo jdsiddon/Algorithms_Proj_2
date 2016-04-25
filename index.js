@@ -123,11 +123,12 @@ function changedp(change, coins, minCoins) {
     m = m - lastCoinUsed[m];
   }
 
-  console.log(changeArr);
-  console.log(minArray);
+  // For Testing.
+  // console.log(changeArr);
+  // console.log(minArray);
   // console.log(lastCoinUsed);
 
-  return lastCoinUsed;
+  return changeArr;
 
 }
 
