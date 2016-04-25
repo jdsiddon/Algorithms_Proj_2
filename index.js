@@ -70,36 +70,57 @@ function changegreedy(change, coins) {
 // https://www.youtube.com/watch?v=Kf_M7RdHr1M
 // function changedp(change, coins, minCoins) {
 function changedp(change, coins, minCoins) {
+  var changeArr = new Array(coins.length);     // Create a new array the same size as the coins available.
+  changeArr.fill(0);
+
+
   var c = [];
   var s = [];
   j = 0;
 
+  // Loop through each possible sub-change value for change. (change-n);
   for(var i = 0; i < change; i++) {
-    if(i === 0) {
+    if(i === 0) {     // Sub-change = 0 so no possible coins, and last coin used is 0.
       c[i] = 0;
       s[i] = 0;
 
     } else {
-      if(coins[j+1] === i) {
+      if(coins[j+1] === i) {  // Current sub-change total equals the next availble coin denomination, so use it.
         j++;
       }
-      minCoins = c[i-coins[j]]+1;
-      c[i] = minCoins;
+
+      minCoins = c[i-coins[j]]+1; // Minimum required coins for sub-change = sub-change[index sub-change value minus current coin denomination] + 1;
+      c[i] = minCoins;            // Set minium coins for subchange value.
 
 
-
-      console.log(j);
+      // Figure out the last coin that was used in making the minimum coins.
       z = j;
-
-      while((i % coins[z]) > 0) {
-        z--;        
+      while((i % coins[z]) > 0) { // The last coin used will be the largest one the sub-value is divisible by.
+        z--;
       }
-      s[i] = coins[z];
+      s[i] = coins[z];            // Store last coin used.
     }
 
 
   }
 
+  // Loop through s array to figure out quantities of coins used.
+  i = s.length-1;
+
+  var coinIndex = 0;
+
+  while(i >= 0) {
+    coin = s[i];
+
+    if(coin === coins[coinIndex]) {
+      changeArr[coinIndex]++;
+      i-=coin;
+    } else {
+      coinIndex++;
+    }
+  }
+
+  console.log(changeArr);
   console.log(c);
   console.log(s);
 
