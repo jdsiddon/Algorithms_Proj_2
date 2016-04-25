@@ -27,12 +27,16 @@
 
 function changeslow(cents, coins) {
   var tempChange = new Array(coins.length);     // Create a new array the same size as the coins available.
-  tempChange.fill(0);
+  var i = 0;
+
+  for(i = 0; i < tempChange.length; i++) {
+    tempChange[i] = 0;
+  }
 
   var ret = new Array;
   var next = new Array;
 
-  for(var i = 0; i < coins.length; i++) {
+  for(i = 0; i < coins.length; i++) {
 
     if(coins.length === 1) {  // Only 1 combination.
       ret.push([coins[i]])
@@ -56,7 +60,11 @@ function changeslow(cents, coins) {
 
 function changegreedy(change, coins) {
   var tempChange = new Array(coins.length);     // Create a new array the same size as the coins available.
-  tempChange.fill(0);
+  // tempChange.fill(0);
+  var i = 0;
+  for(var i = 0; i < tempChange.length; i++) {
+    tempChange[i] = 0;
+  }
 
   if(change === 0) {                    // No change required.
     return tempChange;
@@ -85,15 +93,18 @@ function changegreedy(change, coins) {
 // In the linked example minArray = c and lastCoinUsed = s;
 function changedp(change, coins, minCoins) {
   var changeArr = new Array(coins.length);     // Create a new array the same size as the coins available.
-  changeArr.fill(0);
-
+  var i = 0;
   var minArray = [];        // Array to store minimum number of coins for each sub-change (change-n) where n is the index of the array.
   var lastCoinUsed = [];    // Array to store the last coin used in determining the minimum coins required, needed to figure out how many of each quantity.
   var j = 0;
   var z = 0;
 
+  for(i = 0; i < changeArr.length; i++) {
+    changeArr[i] = 0;
+  }
+
   // Loop through each possible sub-change value for change. (change-n);
-  for(var i = 0; i < change+1; i++) {
+  for(i = 0; i < change+1; i++) {
     if(i === 0) {     // Sub-change = 0 so no possible coins, and last coin used is 0.
       minArray[i] = 0;
       lastCoinUsed[i] = 0;
