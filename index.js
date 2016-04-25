@@ -67,83 +67,67 @@ function changegreedy(change, coins) {
 // the DP algorithm you may use one but need to explain in your report.
 
 
-// https://www.youtube.com/watch?v=Kf_M7RdHr1M
-// function changedp(change, coins, minCoins) {
+// https://www.youtube.com/watch?v=rdI94aW6IWw
+// In the linked example minArray = c and lastCoinUsed = s;
 function changedp(change, coins, minCoins) {
   var changeArr = new Array(coins.length);     // Create a new array the same size as the coins available.
   changeArr.fill(0);
 
-
-  var c = [];
-  var s = [];
-  j = 0;
+  var minArray = [];        // Array to store minimum number of coins for each sub-change (change-n) where n is the index of the array.
+  var lastCoinUsed = [];    // Array to store the last coin used in determining the minimum coins required, needed to figure out how many of each quantity.
+  var j = 0;
+  var z = 0;
 
   // Loop through each possible sub-change value for change. (change-n);
   for(var i = 0; i < change+1; i++) {
     if(i === 0) {     // Sub-change = 0 so no possible coins, and last coin used is 0.
-      c[i] = 0;
-      s[i] = 0;
+      minArray[i] = 0;
+      lastCoinUsed[i] = 0;
 
     } else {
 
-      var minCoins = Number.MAX_SAFE_INTEGER;
-      k = 0;
+      var minCoins = Number.MAX_SAFE_INTEGER;     // A huge number that will never actually be the minimum number of coins.
+      var k = 0;                                  // Iterator over our coins array.
 
-      while(k < coins.length && i <= coins[k]) {
-        if(minCoins < c[i-coins[k]]+1) {
-          minCoins = c[i-coins[k]]+1;
+      while(i >= coins[k] && k < coins.length) {  // As long as our sub-change value is less than or equal to a coin denom lets find the minimum number required.
+        if(minCoins > minArray[i-coins[k]]+1) {
+          minCoins = minArray[i-coins[k]]+1;
         }
-        // if(i % coins[j+1] === 0) {  // Current sub-change total equals the next availble coin denomination, so use it.
-          // j++;
-        // }
         k++;
       }
 
-      // minCoins = c[i-coins[j]]+1;   // Minimum required coins for sub-change = sub-change[index sub-change value minus current coin denomination] + 1;
-      //
-      // var k = 0;
-      // while(coins[k] < i) {
-      //   if(c[i-coins[k]]+1 < minCoins) {
-      //     minCoins = c[i-coins[k]]+1;
-      //   }
-      //   k++;
-      // }
-
-      c[i] = minCoins;            // Set minium coins for subchange value.
+      minArray[i] = minCoins;            // Set minium coins for subchange value.
 
 
       // Figure out the last coin that was used in making the minimum coins.
-      z = j;
+      z = k;
       while((i % coins[z]) > 0) { // The last coin used will be the largest one the sub-value is divisible by.
         z--;
       }
-      s[i] = coins[z];            // Store last coin used.
+      lastCoinUsed[i] = coins[z];            // Store last coin used.
     }
 
 
   }
 
-  // Loop through s array to figure out quantities of coins used.
-  // i = s.length-1;
-  //
-  // var coinIndex = 0;
-  //
-  // while(i >= 0) {
-  //   coin = s[i];
-  //
-  //   if(coin === coins[coinIndex]) {
-  //     changeArr[coinIndex]++;
-  //     i-=coin;
-  //   } else {
-  //     coinIndex++;
-  //   }
-  // }
+  m = minArray.length-1;
+  var d = 0;
+
+  while(m > 0) {
+    for(var h = 0; h < coins.length; h++) {
+      if(lastCoinUsed[m] === coins[h]) {
+        changeArr[h]++;
+        break;
+      }
+    }
+    m = m - lastCoinUsed[m];
+  }
 
   console.log(changeArr);
-  console.log(c);
-  console.log(s);
+  console.log(minArray);
+  // console.log(lastCoinUsed);
 
-  return s;
+  return lastCoinUsed;
 
 }
 
