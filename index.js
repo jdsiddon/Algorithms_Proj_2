@@ -79,17 +79,32 @@ function changedp(change, coins, minCoins) {
   j = 0;
 
   // Loop through each possible sub-change value for change. (change-n);
-  for(var i = 0; i < change; i++) {
+  for(var i = 0; i < change+1; i++) {
     if(i === 0) {     // Sub-change = 0 so no possible coins, and last coin used is 0.
       c[i] = 0;
       s[i] = 0;
 
     } else {
-      if(coins[j+1] === i) {  // Current sub-change total equals the next availble coin denomination, so use it.
-        j++;
+      if(j < coins.length) {
+        if(i % coins[j+1] === 0) {  // Current sub-change total equals the next availble coin denomination, so use it.
+          j++;
+        }
       }
 
+      console.log("j: " + coins[j]);
+
       minCoins = c[i-coins[j]]+1; // Minimum required coins for sub-change = sub-change[index sub-change value minus current coin denomination] + 1;
+
+      console.log(minCoins);
+
+      var k = 0;
+      while(coins[k] < i) {
+        if(c[i-coins[k]]+1 < minCoins) {
+          minCoins = c[i-coins[k]]+1;
+        }
+        k++;
+      }
+
       c[i] = minCoins;            // Set minium coins for subchange value.
 
 
@@ -105,20 +120,20 @@ function changedp(change, coins, minCoins) {
   }
 
   // Loop through s array to figure out quantities of coins used.
-  i = s.length-1;
-
-  var coinIndex = 0;
-
-  while(i >= 0) {
-    coin = s[i];
-
-    if(coin === coins[coinIndex]) {
-      changeArr[coinIndex]++;
-      i-=coin;
-    } else {
-      coinIndex++;
-    }
-  }
+  // i = s.length-1;
+  //
+  // var coinIndex = 0;
+  //
+  // while(i >= 0) {
+  //   coin = s[i];
+  //
+  //   if(coin === coins[coinIndex]) {
+  //     changeArr[coinIndex]++;
+  //     i-=coin;
+  //   } else {
+  //     coinIndex++;
+  //   }
+  // }
 
   console.log(changeArr);
   console.log(c);
