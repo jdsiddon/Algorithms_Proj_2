@@ -54,19 +54,6 @@ function changegreedy(change, coins) {
 
 
 // 3. Dynamic Programming:
-//
-// One dynamic programming approach uses table T indexed by values
-// of change 0, 1, 2, . . . , A where T
-// [v] is the minimum number of coins needed to make change for v.
-// T[v] = min
-// V[i}≤v
-// {T[v − V[i]] + 1}
-// We initialize T [0] = 0. How do you store and return the number
-// of each type of coin to return? (That
-// is, how do you build C[i]?) This implementation is called changedp. Note: there are other versions of
-// the DP algorithm you may use one but need to explain in your report.
-
-
 // https://www.youtube.com/watch?v=rdI94aW6IWw
 // In the linked example minArray = c and lastCoinUsed = s;
 function changedp(change, coins, minCoins) {
@@ -100,7 +87,7 @@ function changedp(change, coins, minCoins) {
 
 
       // Figure out the last coin that was used in making the minimum coins.
-      z = k;
+      z = coins.length-1;
       while((i % coins[z]) > 0) { // The last coin used will be the largest one the sub-value is divisible by.
         z--;
       }
@@ -117,7 +104,6 @@ function changedp(change, coins, minCoins) {
     for(var h = 0; h < coins.length; h++) {
       if(lastCoinUsed[m] === coins[h]) {
         changeArr[h]++;
-        break;
       }
     }
     m = m - lastCoinUsed[m];
@@ -146,4 +132,5 @@ function changedp(change, coins, minCoins) {
 // console.log(changegreedy(15, [1, 2, 4, 8]));     // Should be [1, 1, 1, 1]
 //
 // console.log(changedp(0, [1, 2, 4, 8], new Array()));      // Should return 0.
-console.log(changedp(16, [1, 5, 12, 25]));     // Should be [1, 1, 1, 1]
+console.log(changedp(15, [1, 2, 4, 8]));     // Should be [1, 1, 1, 1]
+console.log(changedp(16, [1, 5, 12, 25]));     // Should be [1, 3, 0, 0]
