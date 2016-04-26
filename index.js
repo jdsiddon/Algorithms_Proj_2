@@ -222,11 +222,6 @@ function writeToOutPut(alg, arr, output) {
   return;
 }
 
-// Suppose V = [1, 5, 10, 25, 50]. For each integer value of A in [2010, 2015, 2020, …, 2200]
-// determine the number of coins that changegreedy and changedp requires. You can attempt
-// to run changeslow however if it takes too long you can select smaller values of A and also
-// run the other algorithms on the values. Plot the number of coins as a function of A for each
-// algorithm. How do the approaches compare?
 
 
 // Code acting as a 'main' for C folks.
@@ -259,72 +254,56 @@ function writeToOutPut(alg, arr, output) {
 
       // Call our functions!
       // Divide
-var denom = [1, 5, 10, 25, 50];
+
+
+// V1 = [1, 2, 6, 12, 24, 48, 60] and V2 = [1, 6, 13, 37, 150].
+// [2000, 2001, 2002, …, 2200]
+var denom = [1, 2, 6, 12, 24, 48, 60];
 var chArray = new Array(denom.length);
 var change = 0;
 var coinCount = 0;
 var start;
 var i = 0;
 
-var results = new Array();
 
 // Number of coins required.
-// for(i = 2010; i < 2201; i+=5) {
-//   change = i;
-//
-//   // Greedy
-//   chArray = changegreedy(change, denom);
-//
-//   coinCount = chArray.reduce(function(prev, curr) {
-//     return prev + curr;
-//   });
-//
-//   results.push([i, coinCount]);
-// }
-// console.log("Greedy");
-// console.log("n, coin count")
-// console.log(results);
-// chArray = 0;
-//
-// results = new Array();
-//
-// for(i = 2010; i < 2201; i+=5) {
-//   change = i;
-//
-//   // DP
-//   chArray = changedp(change, denom);
-//   console.log(chArray);
-//
-//   coinCount = chArray.reduce(function(prev, curr) {
-//     return prev + curr;
-//   });
-//
-//   results.push([i, coinCount]);
-// }
-//
-// console.log("Dynamic");
-// console.log("n, coin count")
-// // console.log(results);
-// chArray = 0;
-//
+console.log("Greedy");
+console.log("n, coin count")
+for(i = 2000; i < 2201; i++) {
+  change = i;
 
-results = new Array();
+  // Greedy
+  chArray = changegreedy(change, denom);
+  coinCount = chArray.reduce(function(prev, curr) {
+    return prev + curr;
+  });
+  console.log(coinCount);
+}
 
-for(i = 2010; i < 2201; i+=5) {
+
+console.log("Dynamic");
+console.log("n, coin count")
+for(i = 2000; i < 2201; i++) {
+  change = i;
+
+  // DP
+  chArray = changedp(change, denom);
+  coinCount = chArray.reduce(function(prev, curr) {
+    return prev + curr;
+  });
+  console.log(coinCount);
+}
+
+
+console.log("Slow");
+console.log("n, coin count")
+for(i = 2000; i < 2201; i++) {
   change = i;
 
   // Slow
   chArray = changeslow(change, denom);
-  console.log(chArray);
-
   coinCount = chArray.reduce(function(prev, curr) {
     return prev + curr;
   });
-
-  results.push([i, coinCount]);
+  console.log(coinCount);
 }
-
-console.log("Slow");
-console.log("n, coin count")
-// console.log(results);
-chArray = 0;
