@@ -108,7 +108,6 @@ function changegreedy(change, coins) {
   }
 
   i = coins.length-1;  // Reset counter.
-
   coin = coins[i];     // Get highest denomination coin (last value in array).
 
   // Keep looping while we have denominations available and change to make.
@@ -201,79 +200,13 @@ function changedp(change, coins) {
 }
 
 
-
-if(process.argv.length < 3) {       // User didn't enter enough arguements.
-  console.log("Usage: node [INPUT]");
-  return;
-
-} else {
-  fs.readFile(process.argv[2], 'utf8', function(err, data) {
-    var outputFile = process.argv[2] + "change.txt";
-    var denominations;      // String of denominations read from file.
-    var denom;              // Array of denomination numbers from denomnations string.
-    var change;             // Change number.
-    var chArray;        // Array returned from our functions.
-
-    var inputs = data.split("\n");                                                // Split our input file by new lines and store in inputs array.
-
-    while(inputs.length > 0) {                                                    // While there is still input to be read, read it!
-      // Get denominations as array of integers.
-      denominations = inputs.shift();                                             // Denominations come first.
-      denominations = denominations.slice(1, denominations.length-1);             // Shave off "[" and "]"
-      denom = denominations.split(",").map(Number);                           // Convert each string "1", "2", etc. to a number.
-
-      // Get change.
-      change = Number(inputs.shift());                                                // Get change total.
-
-
-      if(!denominations || !change) { // Don't call our methods with the last '\n' character of the file.
-        console.log("All done!");
-        return;
-      }
-
-      // Call our functions!
-
-      // Divide
-      // chArray = changeslow(change, denom);
-      // writeToOutPut("changeslow", chArray, outputFile);
-      // chArray = 0;    // Reset!
-      //
-
-      // Greedy
-      chArray = changegreedy(change, denom);
-      writeToOutPut("changegreedy", chArray, outputFile);
-      console.log(chArray);
-      chArray = 0;    // Reset!
-
-
-
-      // Dynamic
-      chArray = changedp(change, denom);
-      writeToOutPut("changedp", chArray, outputFile);
-      chArray = 0;    // Reset!
-
-    }
-  })
-
-
-  // console.log("Divide and Conquer");
-  // console.log(changeslow(15, [1, 2, 4, 8]));
-  // console.log(changeslow(1, [1, 2, 4, 8]));
-  // console.log(changeslow(25, [1, 2, 4, 8]));
-  // console.log(changeslow(5, [1, 2, 3]));
-  //
-  // console.log("Greedy");
-  // console.log(changegreedy(0, [1, 2, 4, 8]));      // Should return 0.
-  // console.log(changegreedy(15, [1, 2, 4, 8]));     // Should be [1, 1, 1, 1]
-  //
-  //
-  // console.log("Dynamic Programming");
-  // console.log(changedp(0, [1, 2, 4, 8]));      // Should return 0.
-  // console.log(changedp(15, [1, 2, 4, 8]));     // Should be [1, 1, 1, 1]
-  // console.log(changedp(16, [1, 5, 12, 25]));     // Should be [1, 3, 0, 0]
-
-}
-
+/**
+ * Function appends algorithm results to the specified text file.
+ * @function
+ * @param {String} alg - Name of the algorithm.
+ * @param {Array} arr - Array of count of coins required to create specified change.
+ * @returns {String} output - Filename results will be appended to.
+ */
 function writeToOutPut(alg, arr, output) {
   var arrString = "[" + arr + "]";
   var coinCount = arr.reduce(function(prev, curr) {
@@ -287,4 +220,57 @@ function writeToOutPut(alg, arr, output) {
   });
 
   return;
+}
+
+
+
+// Code acting as a 'main' for C folks.
+if(process.argv.length < 3) {       // User didn't enter enough arguements.
+  console.log("Usage: node [INPUT]");
+  return;
+
+} else {
+  fs.readFile(process.argv[2], 'utf8', function(err, data) {
+    var outputFile = process.argv[2].split(".txt")[0] + "change.txt";     // Create output file name.
+    var denominations;            // String of denominations read from file.
+    var denom;                    // Array of denomination numbers from denomnations string.
+    var change;                   // Change number.
+    var chArray;                  // Array returned from our functions.
+
+    var inputs = data.split("\n");                                                // Split our input file by new lines and store in inputs array.
+
+    while(inputs.length > 0) {                                                    // While there is still input to be read, read it!
+      // Get denominations as array of integers.
+      denominations = inputs.shift();                                             // Denominations come first.
+      denominations = denominations.slice(1, denominations.length-1);             // Shave off "[" and "]"
+      denom = denominations.split(",").map(Number);                           // Convert each string "1", "2", etc. to a number.
+
+      // Get change.
+      change = Number(inputs.shift());                                                // Get change total.
+
+      if(!denominations || !change) { // Don't call our methods with the last '\n' character of the file.
+        return;
+      }
+
+      // Call our functions!
+      // Divide
+      chArray = changeslow(change, denom);
+      writeToOutPut("changeslow", chArray, outputFile);
+      chArray = 0;    // Reset!
+
+      // Greedy
+      chArray = changegreedy(change, denom);
+      writeToOutPut("changegreedy", chArray, outputFile);
+      chArray = 0;    // Reset!
+
+
+
+      // Dynamic
+      chArray = changedp(change, denom);
+      writeToOutPut("changedp", chArray, outputFile);
+      chArray = 0;    // Reset!
+
+    }
+  })
+
 }
