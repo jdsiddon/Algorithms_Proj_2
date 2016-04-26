@@ -25,7 +25,7 @@
 //   return changeslow(cents-coins[minChange], coins, minChange) + changeslow(cents, coins, minChange+1);
 // }
 
-function changeslow(cents, coins) {
+/*function changeslow(cents, coins) {
   var tempChange = new Array(coins.length);     // Create a new array the same size as the coins available.
   var i = 0;
 
@@ -55,6 +55,84 @@ function changeslow(cents, coins) {
   }
   return ret;
 
+}*/
+
+function changeslow(change, coins){
+
+  var tempChange = new Array(coins.length);     // Create a new array the same size as the coins available.
+  var i = 0;
+  for(var i = 0; i < tempChange.length; i++) {
+    tempChange[i] = 0;
+  }    // Create a new array the same size as the coins available.
+
+  var i = 0;
+  var j = 0;
+  var sum = 0;
+  var val = 0;
+  var numCoins = new Array();
+
+  for (var i = coins.length - 1; i >= 0; i--){
+
+    for (var j = coins.length - 1; j >= 0; j--){
+
+      while (sum < change){
+
+        if(coins[i] != coins[j]){
+
+          sum += coins[i] + coins[j];
+
+          val++;
+
+        }
+
+        else{
+
+          sum += coins[j];
+          val++;
+
+        }
+
+      }
+
+      if (coins[j] > change || sum > change){
+
+        val--;
+
+      }
+
+      if (val > 0 && (tempChange[i] >= val || tempChange[i] == 0)){
+
+        tempChange[i] = val;
+
+      }
+
+      sum = 0;
+
+    }
+
+    if (change >= coins[i]){
+
+      val = tempChange[i];
+
+      while(val > 0){
+        change = change - coins[i];
+        val--;
+
+      }
+
+      val = 0;
+
+    }
+
+    if (change == 0){
+
+      return tempChange;
+
+    }
+
+  } 
+
+  return tempChange;
 }
 
 
@@ -163,14 +241,14 @@ function changedp(change, coins, minCoins) {
 
 
 console.log(changeslow(15, [1, 2, 4, 8]));
-// console.log(changeslow(1, [1, 2, 4, 8], 0));
-// console.log(changeslow(25, [1, 2, 4, 8], 0));
-// console.log(changeslow(5, [1, 2, 3], 0));
+console.log(changeslow(1, [1, 2, 4, 8]));
+console.log(changeslow(25, [1, 2, 4, 8]));
+console.log(changeslow(5, [1, 2, 3]));
 //
 //
-// console.log(changegreedy(0, [1, 2, 4, 8]));      // Should return 0.
-// console.log(changegreedy(15, [1, 2, 4, 8]));     // Should be [1, 1, 1, 1]
+console.log(changegreedy(0, [1, 2, 4, 8]));      // Should return 0.
+console.log(changegreedy(15, [1, 2, 4, 8]));     // Should be [1, 1, 1, 1]
 //
-// console.log(changedp(0, [1, 2, 4, 8], new Array()));      // Should return 0.
+console.log(changedp(0, [1, 2, 4, 8], new Array()));      // Should return 0.
 console.log(changedp(15, [1, 2, 4, 8]));     // Should be [1, 1, 1, 1]
 console.log(changedp(16, [1, 5, 12, 25]));     // Should be [1, 3, 0, 0]
