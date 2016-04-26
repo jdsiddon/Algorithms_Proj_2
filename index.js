@@ -262,25 +262,69 @@ function writeToOutPut(alg, arr, output) {
 var denom = [1, 5, 10, 25, 50];
 var chArray = new Array(denom.length);
 var change = 0;
+var coinCount = 0;
+var start;
+var i = 0;
 
-for(var i = 2010; i < 2201; i+5) {
-  i = change;
+var results = new Array();
 
-  // chArray = changeslow(change, denom);
-  // writeToOutPut("changeslow", chArray, outputFile);
-  // chArray = 0;    // Reset!
-
-  // Greedy
-  chArray = changegreedy(change, denom);
-  writeToOutPut("changegreedy", chArray, outputFile);
-  chArray = 0;    // Reset!
-
-  // Dynamic
-  chArray = changedp(change, denom);
-  writeToOutPut("changedp", chArray, outputFile);
-  chArray = 0;    // Reset!
-}
-//     }
-//   })
+// Number of coins required.
+// for(i = 2010; i < 2201; i+=5) {
+//   change = i;
 //
+//   // Greedy
+//   chArray = changegreedy(change, denom);
+//
+//   coinCount = chArray.reduce(function(prev, curr) {
+//     return prev + curr;
+//   });
+//
+//   results.push([i, coinCount]);
 // }
+// console.log("Greedy");
+// console.log("n, coin count")
+// console.log(results);
+// chArray = 0;
+//
+// results = new Array();
+//
+// for(i = 2010; i < 2201; i+=5) {
+//   change = i;
+//
+//   // DP
+//   chArray = changedp(change, denom);
+//   console.log(chArray);
+//
+//   coinCount = chArray.reduce(function(prev, curr) {
+//     return prev + curr;
+//   });
+//
+//   results.push([i, coinCount]);
+// }
+//
+// console.log("Dynamic");
+// console.log("n, coin count")
+// // console.log(results);
+// chArray = 0;
+//
+
+results = new Array();
+
+for(i = 2010; i < 2201; i+=5) {
+  change = i;
+
+  // Slow
+  chArray = changeslow(change, denom);
+  console.log(chArray);
+
+  coinCount = chArray.reduce(function(prev, curr) {
+    return prev + curr;
+  });
+
+  results.push([i, coinCount]);
+}
+
+console.log("Slow");
+console.log("n, coin count")
+// console.log(results);
+chArray = 0;
