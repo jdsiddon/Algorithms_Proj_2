@@ -263,7 +263,10 @@ var chArray = new Array(denom.length);
 var change = 0;
 var coinCount = 0;
 var start;
+var timeDiff;
 var i = 0;
+
+var hrTime;
 
 
 // Number of coins required.
@@ -272,12 +275,16 @@ console.log("n, coin count")
 for(i = 2000; i < 2201; i++) {
   change = i;
 
-  // Greedy
+  // Greedy - Timing: http://stackoverflow.com/questions/11725691/how-to-get-a-microtime-in-node-js
+  hrTime = process.hrtime();
+  start = Math.round(hrTime[0] * 1000000 + hrTime[1] / 1000);
+
   chArray = changegreedy(change, denom);
-  coinCount = chArray.reduce(function(prev, curr) {
-    return prev + curr;
-  });
-  console.log(coinCount);
+
+  hrTime = process.hrtime();
+  end = Math.round(hrTime[0] * 1000000 + hrTime[1] / 1000) - start;
+
+  console.log(end);
 }
 
 
@@ -287,23 +294,31 @@ for(i = 2000; i < 2201; i++) {
   change = i;
 
   // DP
+  hrTime = process.hrtime();
+  start = Math.round(hrTime[0] * 1000000 + hrTime[1] / 1000);
+
   chArray = changedp(change, denom);
-  coinCount = chArray.reduce(function(prev, curr) {
-    return prev + curr;
-  });
-  console.log(coinCount);
+
+  hrTime = process.hrtime();
+  end = Math.round(hrTime[0] * 1000000 + hrTime[1] / 1000) - start;
+
+  console.log(end);
 }
-
-
+//
+//
 console.log("Slow");
 console.log("n, coin count")
 for(i = 2000; i < 2201; i++) {
   change = i;
 
   // Slow
+  hrTime = process.hrtime();
+  start = Math.round(hrTime[0] * 1000000 + hrTime[1] / 1000);
+
   chArray = changeslow(change, denom);
-  coinCount = chArray.reduce(function(prev, curr) {
-    return prev + curr;
-  });
-  console.log(coinCount);
+
+  hrTime = process.hrtime();
+  end = Math.round(hrTime[0] * 1000000 + hrTime[1] / 1000) - start;
+
+  console.log(end);
 }
