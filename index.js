@@ -224,101 +224,73 @@ function writeToOutPut(alg, arr, output) {
 
 
 
-// Code acting as a 'main' for C folks.
-// if(process.argv.length < 3) {       // User didn't enter enough arguements.
-//   console.log("Usage: node [INPUT]");
-//   return;
-//
-// } else {
-//   fs.readFile(process.argv[2], 'utf8', function(err, data) {
-//     var outputFile = process.argv[2].split(".txt")[0] + "change.txt";     // Create output file name.
-//     var denominations;            // String of denominations read from file.
-//     var denom;                    // Array of denomination numbers from denomnations string.
-//     var change;                   // Change number.
-//     var chArray;                  // Array returned from our functions.
-//
-//     var inputs = data.split("\n");                                                // Split our input file by new lines and store in inputs array.
-//
-//     while(inputs.length > 0) {                                                    // While there is still input to be read, read it!
-//       // Get denominations as array of integers.
-//       denominations = inputs.shift();                                             // Denominations come first.
-//       denominations = denominations.slice(1, denominations.length-1);             // Shave off "[" and "]"
-//       denom = denominations.split(",").map(Number);                           // Convert each string "1", "2", etc. to a number.
-//
-//       // Get change.
-//       change = Number(inputs.shift());                                                // Get change total.
-//
-//       if(!denominations || !change) { // Don't call our methods with the last '\n' character of the file.
-//         return;
-//       }
 
-      // Call our functions!
-      // Divide
 
 
 // V1 = [1, 2, 6, 12, 24, 48, 60] and V2 = [1, 6, 13, 37, 150].
 // [2000, 2001, 2002, …, 2200]
-var denom = [1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30];
+var denom = [1, 6, 13, 37, 40, 55, 75, 85, 90, 93, 133, 145, 150, 173, 180, 197, 200, 222, 233, 235];
 var chArray = new Array(denom.length);
 var change = 0;
 var coinCount = 0;
 var start;
+var end;
 var timeDiff;
 var i = 0;
 
-var hrTime;
+var hrTime = 0;
 
 
 // Number of coins required.
 console.log("Greedy");
 console.log("n, coin count")
-for(i = 2000; i < 2201; i++) {
+for(i = 2000; i < 2200; i++) {
   change = i;
-
   // Greedy - Timing: http://stackoverflow.com/questions/11725691/how-to-get-a-microtime-in-node-js
   hrTime = process.hrtime();
-  start = Math.round(hrTime[0] * 1000000 + hrTime[1] / 1000);
-
-  chArray = changegreedy(change, denom);
-
-  hrTime = process.hrtime();
-  end = Math.round(hrTime[0] * 1000000 + hrTime[1] / 1000) - start;
-
-  console.log(end);
-}
-
-
-console.log("Dynamic");
-console.log("n, coin count")
-for(i = 2000; i < 2201; i++) {
-  change = i;
-
-  // DP
-  hrTime = process.hrtime();
-  start = Math.round(hrTime[0] * 1000000 + hrTime[1] / 1000);
-
-  chArray = changedp(change, denom);
-
-  hrTime = process.hrtime();
-  end = Math.round(hrTime[0] * 1000000 + hrTime[1] / 1000) - start;
-
-  console.log(end);
-}
-//
-//
-console.log("Slow");
-console.log("n, coin count")
-for(i = 2000; i < 2201; i++) {
-  change = i;
-
-  // Slow
-  hrTime = process.hrtime();
-  start = Math.round(hrTime[0] * 1000000 + hrTime[1] / 1000);
+  start = hrTime[0] * 1000000 + hrTime[1] / 1000;
 
   chArray = changeslow(change, denom);
 
   hrTime = process.hrtime();
-  end = Math.round(hrTime[0] * 1000000 + hrTime[1] / 1000) - start;
+  end = (hrTime[0] * 1000000 + hrTime[1] / 1000) - start;
 
-  console.log(end);
+  console.log(Math.round(end));
+  // console.log(i);
+}
+
+//
+console.log("Dynamic");
+console.log("n, coin count")
+for(i = 2000; i < 2200; i++) {
+  change = i;
+
+  // DP
+  hrTime = process.hrtime();
+  start = hrTime[0] * 1000000 + hrTime[1] / 1000;
+
+  chArray = changedp(change, denom);
+
+  hrTime = process.hrtime();
+  end = (hrTime[0] * 1000000 + hrTime[1] / 1000) - start;
+
+  console.log(Math.round(end));
+}
+// //
+// //
+console.log("Slow");
+console.log("n, coin count")
+for(i = 2000; i < 2200; i++) {
+  change = i;
+
+  // Slow
+  hrTime = process.hrtime();
+  start = hrTime[0] * 1000000 + hrTime[1] / 1000;
+
+  chArray = changeslow(change, denom);
+
+  hrTime = process.hrtime();
+  end = (hrTime[0] * 1000000 + hrTime[1] / 1000) - start;
+
+  console.log(Math.round(end));
 }
