@@ -258,7 +258,7 @@ function writeToOutPut(alg, arr, output) {
 
 // V1 = [1, 2, 6, 12, 24, 48, 60] and V2 = [1, 6, 13, 37, 150].
 // [2000, 2001, 2002, …, 2200]
-var denom = [1, 2, 6, 12, 24, 48, 60];
+var denom = [1, 6, 13, 37, 150];
 var chArray = new Array(denom.length);
 var change = 0;
 var coinCount = 0;
