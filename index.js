@@ -222,55 +222,65 @@ function writeToOutPut(alg, arr, output) {
   return;
 }
 
+// Suppose V = [1, 5, 10, 25, 50]. For each integer value of A in [2010, 2015, 2020, …, 2200]
+// determine the number of coins that changegreedy and changedp requires. You can attempt
+// to run changeslow however if it takes too long you can select smaller values of A and also
+// run the other algorithms on the values. Plot the number of coins as a function of A for each
+// algorithm. How do the approaches compare?
 
 
 // Code acting as a 'main' for C folks.
-if(process.argv.length < 3) {       // User didn't enter enough arguements.
-  console.log("Usage: node [INPUT]");
-  return;
-
-} else {
-  fs.readFile(process.argv[2], 'utf8', function(err, data) {
-    var outputFile = process.argv[2].split(".txt")[0] + "change.txt";     // Create output file name.
-    var denominations;            // String of denominations read from file.
-    var denom;                    // Array of denomination numbers from denomnations string.
-    var change;                   // Change number.
-    var chArray;                  // Array returned from our functions.
-
-    var inputs = data.split("\n");                                                // Split our input file by new lines and store in inputs array.
-
-    while(inputs.length > 0) {                                                    // While there is still input to be read, read it!
-      // Get denominations as array of integers.
-      denominations = inputs.shift();                                             // Denominations come first.
-      denominations = denominations.slice(1, denominations.length-1);             // Shave off "[" and "]"
-      denom = denominations.split(",").map(Number);                           // Convert each string "1", "2", etc. to a number.
-
-      // Get change.
-      change = Number(inputs.shift());                                                // Get change total.
-
-      if(!denominations || !change) { // Don't call our methods with the last '\n' character of the file.
-        return;
-      }
+// if(process.argv.length < 3) {       // User didn't enter enough arguements.
+//   console.log("Usage: node [INPUT]");
+//   return;
+//
+// } else {
+//   fs.readFile(process.argv[2], 'utf8', function(err, data) {
+//     var outputFile = process.argv[2].split(".txt")[0] + "change.txt";     // Create output file name.
+//     var denominations;            // String of denominations read from file.
+//     var denom;                    // Array of denomination numbers from denomnations string.
+//     var change;                   // Change number.
+//     var chArray;                  // Array returned from our functions.
+//
+//     var inputs = data.split("\n");                                                // Split our input file by new lines and store in inputs array.
+//
+//     while(inputs.length > 0) {                                                    // While there is still input to be read, read it!
+//       // Get denominations as array of integers.
+//       denominations = inputs.shift();                                             // Denominations come first.
+//       denominations = denominations.slice(1, denominations.length-1);             // Shave off "[" and "]"
+//       denom = denominations.split(",").map(Number);                           // Convert each string "1", "2", etc. to a number.
+//
+//       // Get change.
+//       change = Number(inputs.shift());                                                // Get change total.
+//
+//       if(!denominations || !change) { // Don't call our methods with the last '\n' character of the file.
+//         return;
+//       }
 
       // Call our functions!
       // Divide
-      chArray = changeslow(change, denom);
-      writeToOutPut("changeslow", chArray, outputFile);
-      chArray = 0;    // Reset!
+var denom = [1, 5, 10, 25, 50];
+var chArray = new Array(denom.length);
+var change = 0;
 
-      // Greedy
-      chArray = changegreedy(change, denom);
-      writeToOutPut("changegreedy", chArray, outputFile);
-      chArray = 0;    // Reset!
+for(var i = 2010; i < 2201; i+5) {
+  i = change;
 
+  // chArray = changeslow(change, denom);
+  // writeToOutPut("changeslow", chArray, outputFile);
+  // chArray = 0;    // Reset!
 
+  // Greedy
+  chArray = changegreedy(change, denom);
+  writeToOutPut("changegreedy", chArray, outputFile);
+  chArray = 0;    // Reset!
 
-      // Dynamic
-      chArray = changedp(change, denom);
-      writeToOutPut("changedp", chArray, outputFile);
-      chArray = 0;    // Reset!
-
-    }
-  })
-
+  // Dynamic
+  chArray = changedp(change, denom);
+  writeToOutPut("changedp", chArray, outputFile);
+  chArray = 0;    // Reset!
 }
+//     }
+//   })
+//
+// }
