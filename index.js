@@ -207,7 +207,7 @@ function changedp(change, coins) {
  * @param {Array} arr - Array of count of coins required to create specified change.
  * @returns {String} output - Filename results will be appended to.
  */
-function writeToOutPut(alg, arr, output) {
+function writeToOutPut(alg, arr, output, cb) {
   var arrString = "[" + arr + "]";
   var coinCount = arr.reduce(function(prev, curr) {
     return prev + curr;
@@ -215,10 +215,7 @@ function writeToOutPut(alg, arr, output) {
 
   var outputString = "Algorithm " + alg + "\n" + arrString + "\n" + coinCount + "\n\n";
 
-  fs.appendFile(output, outputString, function(err) {
-    console.log("Done!");
-  });
-
+  fs.appendFileSync(output, outputString);
   return;
 }
 
@@ -256,19 +253,20 @@ if(process.argv.length < 3) {       // User didn't enter enough arguements.
       // Divide
       chArray = changeslow(change, denom);
       writeToOutPut("changeslow", chArray, outputFile);
+
       chArray = 0;    // Reset!
 
       // Greedy
       chArray = changegreedy(change, denom);
       writeToOutPut("changegreedy", chArray, outputFile);
-      chArray = 0;    // Reset!
 
+      chArray = 0;    // Reset!
 
 
       // Dynamic
       chArray = changedp(change, denom);
       writeToOutPut("changedp", chArray, outputFile);
-      chArray = 0;    // Reset!
+
 
     }
   })
