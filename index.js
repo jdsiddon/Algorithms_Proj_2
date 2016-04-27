@@ -239,7 +239,7 @@ if(process.argv.length < 3) {       // User didn't enter enough arguements.
     while(inputs.length > 0) {                                                    // While there is still input to be read, read it!
       // Get denominations as array of integers.
       denominations = inputs.shift();                                             // Denominations come first.
-      denominations = denominations.slice(1, denominations.length-1);             // Shave off "[" and "]"
+      denominations = denominations.slice(1, denominations.length-2);             // Shave off "[" and "]"
       denom = denominations.split(",").map(Number);                           // Convert each string "1", "2", etc. to a number.
 
       // Get change.
