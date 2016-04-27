@@ -1,6 +1,8 @@
 Algorithms_Proj_2
 Coin change greedy algorithms implemented in JavaScript
 
+!!!(It said on the grading rubricthat we have to include a readme and/or a makefile. So I assume that since we have only one file with some special instructions this readme should suffice for compiling and running our code.)!!!
+
 Run code
 
 node index.js [INPUT FILENAME].txt
